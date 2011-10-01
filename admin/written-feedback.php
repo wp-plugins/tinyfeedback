@@ -111,17 +111,17 @@ class tinyFeedback_WrittenFeedback_Table extends WP_List_Table {
 			}
 			if(strlen($valid_ids) > 1) {
 				$valid_ids = substr($valid_ids, 0, -1);
-			}
 	
-			global $wpdb;
-			if('delete' === $this->current_action()) {
-				$wpdb->query("DELETE FROM " . $wpdb->prefix . "tinyFeedback_textual WHERE url_id IN (" . $valid_ids . ")");
-			}
-			if('replied' === $this->current_action()) {
-				$wpdb->query("UPDATE " . $wpdb->prefix . "tinyFeedback_textual SET replied=1 WHERE id IN (" . $valid_ids . ")");
-			}
-			if('notreplied' === $this->current_action()) {
-				$wpdb->query("UPDATE " . $wpdb->prefix . "tinyFeedback_textual SET replied=0 WHERE id IN (" . $valid_ids . ")");
+				global $wpdb;
+				if('delete' === $this->current_action()) {
+					$wpdb->query("DELETE FROM " . $wpdb->prefix . "tinyFeedback_textual WHERE id IN (" . $valid_ids . ")");
+				}
+				if('replied' === $this->current_action()) {
+					$wpdb->query("UPDATE " . $wpdb->prefix . "tinyFeedback_textual SET replied=1 WHERE id IN (" . $valid_ids . ")");
+				}
+				if('notreplied' === $this->current_action()) {
+					$wpdb->query("UPDATE " . $wpdb->prefix . "tinyFeedback_textual SET replied=0 WHERE id IN (" . $valid_ids . ")");
+				}
 			}
 		}
 	}

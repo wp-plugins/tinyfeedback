@@ -65,7 +65,6 @@
 			<tbody>
 				<tr><th scope="row">Enable Google Analytics</th><td><?php yesnoRadio($settings['analytics_enabled']); ?></td><td><em>Tracks positive and negative clicks as <a href="http://code.google.com/apis/analytics/docs/tracking/eventTrackerOverview.html">events</a> in your Google Analytics account</em></td></tr>
 				<tr><th scope="row">Insert CSS in header</th><td><?php yesnoRadio($settings['insert_css']); ?></td><td><em>Disable this if you want to manually embed the CSS in your primary stylesheet</em></td></tr>
-				<tr><th scope="row">Insert jQuery in header</th><td><?php yesnoRadio($settings['insert_jquery']); ?></td><td><em>Disable this if you've already got jQuery</em></td></tr>
 				<tr><th scope="row">Utilize cookies</th><td><?php yesnoRadio($settings['cookie_enabled']); ?></td><td><em>Tab will only be displayed on pages where feedback has not been given (Inform your visitors!)</em></td></tr>
 				<tr><th scope="row">Filter feedback through Akismet</th><td><?php yesnoRadio($settings['akismet_enabled']); ?></td><td><em>Spam protection (Requires the <a href="http://akismet.com/">Akismet</a> plugin enabled)</em></td></tr>
 				<tr><th scope="row">Select style</th><td colspan="2">

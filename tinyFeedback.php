@@ -3,14 +3,14 @@
 	Plugin Name: tinyFeedback
 	Plugin URI: http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/
 	Description: An unobtrusive, simple yet highly configurable feedback plugin.
-	Version: 1.2
+	Version: 1.3
 	Author: Fredrik Karlström
 	Author URI: http://cbsmth.se/
 	Licence: GPL2
 
 	---
 
-	Copyright 2011  Fredrik Karlström  (email : cbsmth@gmail.com)
+	Copyright 2011  Fredrik Karlström  (email : tinyfeedback@cbsmth.se)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as 
@@ -31,7 +31,6 @@ if(!function_exists('add_action')) {
 	if(isset($_GET['config'])) {
 		require_once('../../../wp-load.php'); 
 		global $wpdb;
-		// Change this for name IN ...
 		$rows = $wpdb->get_results("SELECT name, value FROM " . $wpdb->prefix . "tinyFeedback_settings WHERE name IN ('widget_text', 'widget_yes', 'widget_no', 'widget_target', 'widget_thankyou', 'form_textarea_placeholder', 'form_text', 'form_caption', 'form_email_placeholder', 'form_send_button_text', 'analytics_enabled', 'cookie_enabled')", ARRAY_A);
 		$json = '';
 		foreach($rows as $row) {
@@ -71,7 +70,6 @@ function install() {
 		'written_success' => '<h2>Feedback received!</h2><p>Your message has been received. Thank you for your assistance!</p>',
 		'written_failure' => '<h2>An error has occurred</h2><p>We are terribly sorry about this mishap. Would you mind letting us know about this error by <a href="mailto:name@website.com">e-mail</a>?</p>',
 		'analytics_enabled' => '0',
-		'insert_jquery' => '1',
 		'insert_css' => '1',
 		'akismet_filter' => '0',
 		'cookie_enabled' => '0',
@@ -120,14 +118,8 @@ function insertStyles() {
 }
 
 function insertScripts() {
-	global $wpdb;
-	$config = $wpdb->get_row("SELECT value FROM " . $wpdb->prefix . "tinyFeedback_settings WHERE name = 'insert_jquery'");
-	if((bool)$config->value) {
-	//	echo '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>', PHP_EOL;
-		wp_enqueue_script('jquery');
-	}
+	wp_enqueue_script('jquery');
 	wp_enqueue_script('tinyfeedback', plugin_dir_url(__FILE__) . 'tinyFeedback.js');
-	//echo '<script type="text/javascript" src="' . plugin_dir_url(__FILE__) . 'tinyFeedback.js"></script>', PHP_EOL;
 }
 
 function displayWidget() {

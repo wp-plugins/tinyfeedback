@@ -19,7 +19,7 @@ All texts displayed can be configured through the administration panel, and ther
 
 In addition to the above, tinyFeedback offers functionality to bind the activity to Google Analytics event tracking, and filter the form input through Akismet to avoid spam. For the advanced user, the CSS- and jQuery-injection can be disabled and performed manually instead, for optimization purposes.
 
-For more information, please visit the plugin homepage at http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/
+For more information and a live demonstration, please visit the plugin homepage at http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/
 
 == Installation ==
 

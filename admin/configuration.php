@@ -74,7 +74,7 @@
 						$select = '<select name="current_style">' . PHP_EOL;
 						if($handle = opendir(plugin_dir_path(__FILE__) . '../styles')) {
 							while(false !== ($file = readdir($handle))) {
-								if($file != '.' && $file != '..') {
+								if(substr($file, -8) != '-dev.css' && substr($file, -4) == '.css') {
 									if($file == $settings['current_style']->value) {
 										$select .= '<option selected value="' . $file . '">' . ucwords(str_replace('-', ' ', substr($file, 0, -4))) . '</option>' . PHP_EOL;
 									} else {

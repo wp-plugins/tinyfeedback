@@ -3,6 +3,7 @@
 
 <div style="width: 600px;">
 
+
 <h3>Feature requests</h3>
 <p>Without your input, the plugin might forever lack the functionality you desire - which would be a shame given that plenty of time and effort already has been put into it.</p>
 <p>If you have an idea, don't hesitate to visit the <a href="http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/">plugin website</a> and leave a feature request. General comments are of course also most welcome!</p>

@@ -3,7 +3,7 @@
 	Plugin Name: tinyFeedback
 	Plugin URI: http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/
 	Description: An unobtrusive, simple yet highly configurable feedback plugin.
-	Version: 1.3
+	Version: 1.4
 	Author: Fredrik Karlström
 	Author URI: http://cbsmth.se/
 	Licence: GPL2
@@ -34,7 +34,7 @@ if(!function_exists('add_action')) {
 		$rows = $wpdb->get_results("SELECT name, value FROM " . $wpdb->prefix . "tinyFeedback_settings WHERE name IN ('widget_text', 'widget_yes', 'widget_no', 'widget_target', 'widget_thankyou', 'form_textarea_placeholder', 'form_text', 'form_caption', 'form_email_placeholder', 'form_send_button_text', 'analytics_enabled', 'cookie_enabled')", ARRAY_A);
 		$json = '';
 		foreach($rows as $row) {
-			$json .= '"' . $row['name'] . '": "' . $row['value'] . '",';
+			$json .= '"' . $row['name'] . '": "' . str_replace('"', '\"', stripslashes($row['value'])) . '",';
 		}
 		die('{' . substr($json, 0, -1) . '}');
 	}

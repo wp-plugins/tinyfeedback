@@ -3,7 +3,7 @@ Contributors: cbsmth
 Tags: feedback, user input
 Requires at least: 3.2.1
 Tested up to: 3.2.1
-Stable tag: 1.3
+Stable tag: 1.4
 
 A minimalistic yet highly configurable feedback plugin. Options to intergrate with Google Analytics and Akismet available.
 
@@ -39,6 +39,11 @@ Installing tinyFeedback is very easy. All you need to do is:
 4. tinyFeedback configuration options.
 
 == Changelog ==
+
+= 1.4 =
+* Apostrophes and quote marks are now correctly handled in text content
+* Silent index files added to directories to avoid exposing files on insecure server configurations
+* JavaScript- and CSS-files minified
 
 = 1.3 =
 * Malfunctioning bulk action code corrected

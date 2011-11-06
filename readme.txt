@@ -40,6 +40,9 @@ Installing tinyFeedback is very easy. All you need to do is:
 
 == Changelog ==
 
+= 1.4.1 = 
+* Minor update regarding default configuration
+
 = 1.4 =
 * Apostrophes and quote marks are now correctly handled in text content
 * Silent index files added to directories to avoid exposing files on insecure server configurations

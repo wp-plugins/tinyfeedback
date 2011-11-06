@@ -3,7 +3,7 @@ Contributors: cbsmth
 Tags: feedback, user input
 Requires at least: 3.2.1
 Tested up to: 3.2.1
-Stable tag: 1.4
+Stable tag: 1.4.1
 
 A minimalistic yet highly configurable feedback plugin. Options to intergrate with Google Analytics and Akismet available.
 

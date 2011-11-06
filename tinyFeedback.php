@@ -70,7 +70,7 @@ function install() {
 		'written_success' => '<h2>Feedback received!</h2><p>Your message has been received. Thank you for your assistance!</p>',
 		'written_failure' => '<h2>An error has occurred</h2><p>We are terribly sorry about this mishap. Would you mind letting us know about this error by <a href="mailto:name@website.com">e-mail</a>?</p>',
 		'analytics_enabled' => '0',
-		'insert_css' => '0',
+		'insert_css' => '1',
 		'akismet_filter' => '0',
 		'cookie_enabled' => '0',
 		'current_style' => 'blue-vertical.css'

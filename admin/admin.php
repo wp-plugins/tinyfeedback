@@ -1,4 +1,5 @@
 <?php
+	global $wpdb;
 	$available_pages = array(
 		'statistics' => 'statistics.php',
 		'configuration' => 'configuration.php',
@@ -10,6 +11,12 @@
 		$path = $available_pages[$_GET['s']];
 	} else {
 		$_GET['s'] = 'statistics';
+	}
+
+	// Check that settings table exist and is filled
+	$isempty = $wpdb->get_col($wpdb->prepare('SELECT * FROM ' . $wpdb->prefix.'tinyFeedback_settings' . ' LIMIT 1'));
+	if(empty($isempty)) {
+		echo '<div id="message" class="error"><p><strong>Error:</strong> The settings table has not been properly installed. Please try to re-activate the plugin. Should the problem persist, visit the <a href="http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/">plugin website</a>.</p></div>', PHP_EOL;
 	}
 ?>
 <div id="icon-edit-comments" class="icon32"></div>

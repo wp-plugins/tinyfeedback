@@ -52,7 +52,12 @@
 	}
 
 	function editorinput($setting) {
-		echo '<textarea id="' . $setting->name . '" name="' . $setting->name . '" class="wysiwyg" cols="70" rows="10">' . esc_textarea(stripslashes($setting->value)) . '</textarea>';
+		$conf = array(
+			'textarea_name' => $setting->name,
+			'media_buttons' => false,
+			'textarea_rows' => 15,
+			);
+		wp_editor(stripslashes($setting->value), $setting->name, $conf);
 	}
 ?>
 	<h3>General settings</h3>
@@ -118,33 +123,3 @@
 		</table>
 		<input type="submit" class="button-primary" value="Update settings" name="btn_submit">
 	</form>
-
-<?php
-if (function_exists('wp_tiny_mce') && isset($_GET['page']) && $_GET['page'] == 'tinyFeedback') {
-
-  add_filter('teeny_mce_before_init', create_function('$a', '
-    $a["theme"] = "advanced";
-    $a["skin"] = "wp_theme";
-    $a["height"] = "240";
-    $a["width"] = "600";
-    $a["onpageload"] = "";
-    $a["mode"] = "exact";
-    $a["elements"] = "form_text,written_success,written_failure";
-    $a["editor_selector"] = "wysiwyg";
-    $a["plugins"] = "safari,inlinepopups,spellchecker";
-	$a["theme_advanced_buttons1"] = "bold,italic,underline,bullist,numlist,blockquote,link,unlink,formatselect";
-	$a["theme_advanced_buttons2"] = "";
-	$a["theme_advanced_buttons3"] = "";
-	$a["theme_advanced_blockformats"] = "h2,p";
-	$a["theme_advanced_statusbar_location"] = "";
-
-    $a["forced_root_block"] = false;
-    $a["force_br_newlines"] = true;
-    $a["force_p_newlines"] = false;
-    $a["convert_newlines_to_brs"] = true;
-
-    return $a;'));
-
- wp_tiny_mce(true);
-}
-?>

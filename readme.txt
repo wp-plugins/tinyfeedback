@@ -2,8 +2,8 @@
 Contributors: cbsmth
 Tags: feedback, user input
 Requires at least: 3.2.1
-Tested up to: 3.2.1
-Stable tag: 1.4.1
+Tested up to: 3.3.1
+Stable tag: 1.5
 
 A minimalistic yet highly configurable feedback plugin. Options to intergrate with Google Analytics and Akismet available.
 
@@ -33,12 +33,17 @@ Installing tinyFeedback is very easy. All you need to do is:
 
 == Screenshots ==
 
-1. The two currently available feedback tabs; normally placed to the left edge of the screen
+1. The two currently available feedback tabs; normally placed to the left edge of the screen.
 2. The default negative feedback form.
 3. Statistics overview in administration panel.
 4. tinyFeedback configuration options.
 
 == Changelog ==
+
+= 1.5 =
+* Added error-handling on installation
+* Implemented database versioning and wpDelta - the installation issue should now be properly resolved
+* tinyMCE re-implemented WordPress 3.3-style
 
 = 1.4.1 = 
 * Minor update regarding default configuration

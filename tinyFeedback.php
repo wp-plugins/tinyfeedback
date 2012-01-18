@@ -2,8 +2,8 @@
 /*
 	Plugin Name: tinyFeedback
 	Plugin URI: http://cbsmth.se/web-development/tinyfeedback-wordpress-plugin/
-	Description: An unobtrusive, simple yet highly configurable feedback plugin.
-	Version: 1.4
+	Description: An unobtrusive and simple yet highly configurable feedback plugin.
+	Version: 1.5
 	Author: Fredrik Karlström
 	Author URI: http://cbsmth.se/
 	Licence: GPL2
@@ -25,6 +25,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+global $tf_db_version;
+$tf_db_version = '1.0';
 
 // Do not expose information if called directly
 if(!function_exists('add_action')) {
@@ -44,17 +46,55 @@ if(!function_exists('add_action')) {
 // Installation
 function install() {
 	global $wpdb;
-	// Settings table
-	$table = $wpdb->prefix."tinyFeedback_settings";
-	$structure = "CREATE TABLE $table (
-		id int NOT NULL AUTO_INCREMENT,
-		name varchar(64) NOT NULL,
-		value text NOT NULL,
-		UNIQUE KEY id (id),
-		UNIQUE KEY name (name)
-	);";
-	$wpdb->query($structure);
+	global $tf_db_version;
+	require_once(ABSPATH. 'wp-admin/includes/upgrade.php');
 
+	$installed_db_version = get_option('fb_db_version');
+	if($installed_db_version != $tf_db_version) {
+
+		// Settings table
+		$table = $wpdb->prefix."tinyFeedback_settings";
+		$structure = "CREATE TABLE $table (
+			id int NOT NULL AUTO_INCREMENT,
+			name varchar(64) NOT NULL,
+			value text NOT NULL,
+			UNIQUE KEY id (id),
+			UNIQUE KEY name (name)
+		);";
+		dbDelta($structure);
+
+		// URL feedback table
+		$table = $wpdb->prefix."tinyFeedback_URLs";
+		$structure = "CREATE TABLE $table (
+			id INT(9) NOT NULL AUTO_INCREMENT,
+			url varchar(250) NOT NULL,
+			positive_count INT(9) NOT NULL DEFAULT 0,
+			negative_count INT(9) NOT NULL DEFAULT 0,
+			UNIQUE KEY id (id),
+			UNIQUE KEY url (url)
+		);";
+		dbDelta($structure);
+
+		// Textual feedback table
+		$table = $wpdb->prefix."tinyFeedback_textual";
+		$structure = "CREATE TABLE $table (
+			id INT(9) NOT NULL AUTO_INCREMENT,
+			url_id INT(9) NOT NULL,
+			author_email varchar(100),
+			add_timestamp timestamp NOT NULL,
+			replied bool NOT NULL DEFAULT 0,
+			message text NOT NULL,
+			UNIQUE KEY id (id),
+			FOREIGN KEY (url_id) REFERENCES ".$wpdb->prefix."tinyFeedback_URLs(id) ON DELETE CASCADE ON UPDATE CASCADE
+		);";
+		dbDelta($structure);
+
+		update_option('tf_db_version', $tf_db_version);
+	}
+}
+
+function installData() {
+	global $wpdb;
 	// Settings default values
 	$default_settings = array(
 		'widget_text' => 'Helpful?',
@@ -73,38 +113,16 @@ function install() {
 		'insert_css' => '1',
 		'akismet_filter' => '0',
 		'cookie_enabled' => '0',
-		'current_style' => 'blue-vertical.css'
+		'current_style' => 'black-vertical.css'
 	);
+
+	$table = $wpdb->prefix.'tinyFeedback_settings';
+	//$rows_affected = $wpdb->insert($table, $default_settings); // For some inexplicable reason, this does not work
 
 	foreach($default_settings as $name => $setting) {
 		$wpdb->query("INSERT INTO $table (name, value) VALUES ('" . $name . "', '" . $setting . "')");
 	}
 
-	// URL feedback table
-	$table = $wpdb->prefix."tinyFeedback_URLs";
-	$structure = "CREATE TABLE $table (
-		id INT(9) NOT NULL AUTO_INCREMENT,
-		url varchar(250) NOT NULL,
-		positive_count INT(9) NOT NULL DEFAULT 0,
-		negative_count INT(9) NOT NULL DEFAULT 0,
-		UNIQUE KEY id (id),
-		UNIQUE KEY url (url)
-	);";
-	$wpdb->query($structure);
-
-	// Textual feedback table
-	$table = $wpdb->prefix."tinyFeedback_textual";
-	$structure = "CREATE TABLE $table (
-		id INT(9) NOT NULL AUTO_INCREMENT,
-		url_id INT(9) NOT NULL,
-		author_email varchar(100),
-		add_timestamp timestamp NOT NULL,
-		replied bool NOT NULL DEFAULT 0,
-		message text NOT NULL,
-		UNIQUE KEY id (id),
-		FOREIGN KEY (url_id) REFERENCES ".$wpdb->prefix."tinyFeedback_URLs(id) ON DELETE CASCADE ON UPDATE CASCADE
-	);";
-	$wpdb->query($structure);
 }
 
 /* -- Functionality -- */
@@ -126,24 +144,23 @@ function displayWidget() {
 	echo '<script type="text/javascript"> jQuery(function() { tinyFeedback("' . plugin_dir_url(__FILE__) . '"); }); </script>', PHP_EOL;
 }
 
-function admin_overview() {
+function adminOverview() {
 	require_once(dirname(__FILE__) . '/admin/admin.php');
 }
 
-function admin_actions() {
-	add_menu_page('tinyFeedback', 'Feedback', 1, 'tinyFeedback', 'admin_overview', plugin_dir_url(__FILE__).'tinyFeedback.png', 30);
+function adminActions() {
+	add_menu_page('tinyFeedback', 'Feedback', 1, 'tinyFeedback', 'adminOverview', plugin_dir_url(__FILE__).'tinyFeedback.png', 30);
 }
 
 /* WordPress API Hooks */
-add_action('activate_tinyFeedback/tinyFeedback.php', 'install');
+add_action('activate_tinyfeedback/tinyFeedback.php', 'install');
+add_action('activate_tinyfeedback/tinyFeedback.php', 'installData');
 add_action('wp_print_styles', 'insertStyles');
 add_action('wp_print_scripts', 'insertScripts');
 add_action('wp_footer', 'displayWidget');
 
 // Include admin panel for administrators
 if(is_admin()) {
-	add_action('admin_menu', 'admin_actions');
+	add_action('admin_menu', 'adminActions');
 }
-
-
 ?>
